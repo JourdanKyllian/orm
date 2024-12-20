@@ -5,13 +5,11 @@ import { Salut } from '../models/Salut';
 import { Crud } from '../../orm/Orm';
 
 async function syncDatabase() {
-  // Fournir la configuration à la base de données
-  /**
-   * 
-   */
+
+  // Configuration de la connexion à la base de données
   const dbConfig = {
     host: 'localhost',
-    port: 3316,
+    port: 3306,
     user: 'root',
     password: '',
     database: 'test_db',

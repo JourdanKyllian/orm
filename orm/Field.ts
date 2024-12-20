@@ -1,3 +1,6 @@
+/**
+ * Field options
+ */
 export interface FieldOptions {
   type: string;
   length?: number;
@@ -5,6 +8,11 @@ export interface FieldOptions {
   default?: any;
 }
 
+/**
+ * methode de décoration de champ
+ * @param options 
+ * @returns 
+ */
 export function Field(options: FieldOptions) {
   return function (target: any, propertyName: string, context?: ClassFieldDecoratorContext) {
     const model = target.constructor;

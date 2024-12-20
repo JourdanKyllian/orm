@@ -1,5 +1,8 @@
 import mysql from 'mysql2/promise';
 
+/**
+ * Configuration de la base de données
+ */
 interface DatabaseConfig {
   host: string;
   port: number;
@@ -7,13 +10,20 @@ interface DatabaseConfig {
   password: string;
   database: string;
 }
+
+/**
+ * Classe de gestion de la base de données
+ */
 export class Database {
     private connection: mysql.Connection | null = null;
     private config: DatabaseConfig | null = null;
   
     constructor() {}
   
-    // Initialiser avec la configuration
+    /**
+     * Initialiser la connexion à la base de données
+     * @param config 
+     */
     async initialize(config: DatabaseConfig) {
       this.config = config;
   
@@ -25,7 +35,10 @@ export class Database {
       }
     }
   
-    // Synchroniser les modèles
+  /**
+   * Synchroniser les modèles avec la base de données
+   * @param models 
+   */
     async syncModels(models: any[]) {
       if (!this.connection) {
         throw new Error('Database not connected');
@@ -38,15 +51,22 @@ export class Database {
       }
     }
   
-    // Obtenir la connexion actuelle
+/** 
+ * Obtenir la connexion active
+ * @returns 
+ */
     getConnection() {
       if (!this.connection) {
         throw new Error('Database not connected');
       }
       return this.connection;
     }
-  
-    // Exécuter une requête
+
+  /**
+   * Exécuter une requête
+   * @param query 
+   * @returns 
+   */
     async executeQuery(query: string) {
       if (!this.connection) {
         throw new Error('Database not connected');
@@ -57,15 +77,25 @@ export class Database {
   // Instance unique de la base de données
   export const db = new Database();
   
-
+/**
+ * Classe CRUD
+ */
 export class Crud {
   private connection: mysql.Connection | null = null;
 
-  // Setter pour la connexion
+  /**
+   * Injecter la connexion
+   * @param connection 
+   */
   setConnection(connection: mysql.Connection) {
     this.connection = connection;
   }
 
+/**
+ * Exécuter une requête 
+ * @param query 
+ * @returns 
+ */
   async executeQuery(query: string) {
     if (!this.connection) {
       throw new Error('Database not connected');
@@ -73,7 +103,11 @@ export class Crud {
     return this.connection.execute(query);
   }
 
-  // CRUD - Create (Insertion)
+  /**
+   * CRUD - Create (Créer)
+   * @param table 
+   * @param data 
+   */
   async create(table: string, data: { [key: string]: any }) {
     const columns = Object.keys(data).join(', ');
     const values = Object.values(data)
@@ -84,14 +118,24 @@ export class Crud {
     await this.executeQuery(query);
   }
 
-  // CRUD - Read (Sélectionner)
+/**
+ * CRUD - Read (Lire)
+ * @param table 
+ * @param conditions 
+ * @returns 
+ */
   async read(table: string, conditions: string = '') {
     const query = `SELECT * FROM ${table} ${conditions}`;
     const [results] = await this.executeQuery(query);
     return results;
   }
 
-  // CRUD - Update (Mettre à jour)
+  /**
+   * CRUD - Update (Mettre à jour)
+   * @param table 
+   * @param data 
+   * @param conditions 
+   */
   async update(table: string, data: { [key: string]: any }, conditions: string) {
     const setClause = Object.entries(data)
       .map(([key, value]) => `${key} = ${typeof value === 'string' ? `'${value}'` : value}`)
@@ -101,7 +145,11 @@ export class Crud {
     await this.executeQuery(query);
   }
 
-  // CRUD - Delete (Supprimer)
+ /**
+  * CRUD - Delete (Supprimer)
+  * @param table 
+  * @param conditions 
+  */
   async delete(table: string, conditions: string) {
     const query = `DELETE FROM ${table} WHERE ${conditions}`;
     await this.executeQuery(query);

@@ -1,5 +1,8 @@
 import { FieldOptions } from './Field';
 
+/**
+ * Model class
+ */
 export class Model {
   static fields: { [key: string]: FieldOptions } = {};
   // pour reset le field et eviter que les fields se cumulent( en gros que tout les table ai les meme colonne )
@@ -7,6 +10,11 @@ export class Model {
     this.fields = {};
   }
 
+  /**
+   * Ajouter un champ à la table du modèle
+   * @param fieldName 
+   * @param options 
+   */
   static addField(fieldName: string, options: FieldOptions) {
     // Réinitialise `fields` à vide avant d'ajouter de nouveaux champs
     if (!Object.prototype.hasOwnProperty.call(this, 'fields')) {
@@ -14,7 +22,11 @@ export class Model {
     }
     this.fields[fieldName] = options;
   }
-
+  
+/**
+ * Générer une requête de création de table
+ * @returns 
+ */
   static generateCreateTableQuery() {
     const tableName = this.name.toLowerCase();
     const columns = Object.entries(this.fields)
@@ -41,8 +53,12 @@ export class Model {
   }
 }
 
-// Fonction pour mapper les types TypeScript vers SQL
-// Fonction pour mapper les types TypeScript vers SQL
+/**
+ * Mapper les types de champs aux types SQL
+ * @param type 
+ * @param length 
+ * @returns 
+ */
 function mapTypeToSQL(type: string, length?: number): string {
   switch (type.toLowerCase()) {
     case 'string':
