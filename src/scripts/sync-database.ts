@@ -11,7 +11,7 @@ async function syncDatabase() {
    */
   const dbConfig = {
     host: 'localhost',
-    port: 3306,
+    port: 3316,
     user: 'root',
     password: '',
     database: 'test_db',
