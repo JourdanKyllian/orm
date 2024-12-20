@@ -61,6 +61,19 @@ export class Database {
       }
       return this.connection;
     }
+    async close() {
+      if (this.connection) {
+          try {
+              await this.connection.end();
+              console.log('Database connection closed successfully.');
+          } catch (error) {
+              console.error('Error closing database connection:', error);
+          } finally {
+              this.connection = null;
+          }
+      }
+  }
+  
   }
   // Instance unique de la base de données
   export const db = new Database();

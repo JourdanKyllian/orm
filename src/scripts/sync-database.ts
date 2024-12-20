@@ -42,6 +42,8 @@ async function syncDatabase() {
   await crud.delete('post', 'Userid = 0');
   console.log('Data deleted successfully.');
 
+  await db.close();
+  console.log('Database connection closed.');
   process.exit(0);
 }
 
