@@ -1,0 +1,16 @@
+{
+  "name": "orm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "sync": "ts-node src/scripts/sync-database.ts"
+  },
+  "dependencies": {
+    "mysql2": "^3.11.5"
+  },
+  "devDependencies": {
+    "ts-node": "^10.0.0",
+    "typescript": "^5.7.2"
+  }
+}
