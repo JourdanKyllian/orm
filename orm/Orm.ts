@@ -61,18 +61,6 @@ export class Database {
       }
       return this.connection;
     }
-
-  /**
-   * Exécuter une requête
-   * @param query 
-   * @returns 
-   */
-    async executeQuery(query: string) {
-      if (!this.connection) {
-        throw new Error('Database not connected');
-      }
-      return this.connection.execute(query);
-    }
   }
   // Instance unique de la base de données
   export const db = new Database();
